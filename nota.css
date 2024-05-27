@@ -1,0 +1,67 @@
+.nota-container {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-top: 50px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nota-header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.nota-details {
+    margin: 20px 0;
+    justify-content: space-between;
+}
+
+.nota-details p {
+    margin: 0;
+}
+
+@media (max-width: 576px) {
+    .nota-details {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+/* Aturan CSS untuk tampilan cetak */
+@media print {
+    body {
+        background-color: white;
+    }
+
+    nav,
+    .btn-container {
+        display: none !important; /* Pastikan !important digunakan untuk memastikan aturan ini diutamakan */
+    }
+
+    table.table-bordered {
+        border-collapse: collapse;
+        border: 1px solid rgb(197, 197, 197);
+    }
+    table.table-bordered tr, table.table-bordered th,
+    table.table-bordered td {
+        border: 1px solid rgb(197, 197, 197);
+    }
+}
+.btn {
+    font-size: 1em; /* Atur ukuran font responsif */
+}

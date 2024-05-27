@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body{
+    background-color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+.form-control{
+    position: relative;
+    height: 40px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    width: 100%;
+}
+
+/* Navbar styles */
+.navbar {
+    margin-bottom: 20px;
+}
+
+.navbar .nav-link .fa-cart-plus {
+    color: #e8e8e8;
+    font-size: 22px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    margin-right: 16px;
+}
+
+.navbar .nav-link .fa-cart-plus:hover {
+    color: white;
+    transform: translateY(-3px); /* Ubah nilai transform sesuai dengan keinginan Anda */
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.search-bar input {
+    border-radius: 0.25rem;
+}
+
+.search-bar button {
+    margin-left: 5px;
+}
+
+.nav-item.d-flex {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 992px) {
+    .navbar .navbar-collapse {
+        flex-basis: auto;
+        flex-grow: 1;
+        justify-content: flex-end;
+    }
+
+    .navbar-nav {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .navbar-nav .search-bar {
+        order: -1; /* Mendorong elemen pencarian ke kiri */
+    }
+
+    .navbar-nav .cart-link {
+        margin-left: 10px;
+    }
+}
+
+.carousel {
+    position: relative;
+    top: 80px;
+}
+.carousel-item img {
+    width: 100%; /* Setiap gambar akan memiliki lebar 100% */
+    height: auto; /* Tinggi gambar akan disesuaikan dengan proporsi aslinya */
+}
+.carousel-inner {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.konten {
+    padding-top: 25px; /* Atur padding top konten */
+}
+
+/* navbar kategori */
+.nav-pills .nav-link {
+    color: #000;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .nav-link:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.nav-pills {
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-out;
+    height: 350px; /* Set tinggi tetap untuk setiap card */
+}
+
+.card-body {
+    display: flex; /* Mengubah display menjadi flex */
+    flex-direction: column; /* Mengatur orientasi konten menjadi vertikal */
+    align-items: center; /* Mengatur konten berada di tengah secara vertikal */
+    justify-content: space-between; /* Memastikan tombol "Pilih" berada di bawah nama menu */
+    padding: 20px;
+}
+
+.nama-menu {
+    font-family: calibri; /* Ganti dengan jenis font yang Anda inginkan */
+    font-size: 1.25rem; /* Ukuran font */
+    font-weight: bold; /* Ketebalan font */
+    margin-bottom: 10px; /* Jarak antara nama menu dan harga */
+    text-align: center;
+}
+
+.harga-menu {
+    font-family: calibri; 
+    font-size: 1rem;
+    font-weight: bold;
+    color: #000000;
+}
+
+.btn-beli {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+    text-decoration: none;
+}
+
+.btn-beli:hover {
+    background-color: #218838; 
+    transform: translateY(-3px); 
+    color: #fff;
+    font-weight: bold;
+}
+
+
+
+/* Gaya untuk judul "Keranjang Menu" */
+.judul-keranjang {
+    color: #00235b; /* Warna font */
+    font-size: 24px; /* Ukuran font */
+    font-weight: bold; /* Ketebalan font */
+    text-align: center; /* Posisi teks menjadi di tengah */
+    margin-bottom: 10px; /* Jarak antara judul dengan konten di bawahnya */
+}
+
+/* Gaya untuk tabel */
+.table {
+    margin-top: -15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+    border-radius: 10px; /* Sudut melengkung */
+    overflow: hidden; /* Mengatasi overflow dari efek bayangan */
+    transition: box-shadow 0.3s ease; /* Transisi efek bayangan */
+}
+
+/* Efek bayangan saat hover */
+.table:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Efek bayangan saat hover */
+}
+/* Gaya untuk tombol */
+.btn {
+    display: inline-block; /* Membuat tombol menjadi inline block */
+    padding: 8px 16px; /* Padding tombol */
+    color: #fff; /* Warna teks tombol */
+    border: none; /* Menghapus border tombol */
+    border-radius: 5px; /* Melengkungkan sudut tombol */
+    cursor: pointer; /* Mengubah kursor menjadi tanda pointer saat diarahkan ke tombol */
+    transition: all 0.3s ease; /* Transisi semua perubahan pada tombol */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); /* Efek bayangan tombol */
+}
+
+/* Efek 3D saat tombol dihover */
+.btn:hover {
+    transform: translateY(-2px); /* Menggeser tombol sedikit ke atas saat hover */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Efek bayangan saat hover */
+}
+.quantity {
+    display: flex;
+    align-items: center;
+}
+
+.quantity button {
+    flex: 10; /* Menyesuaikan lebar tombol dengan flexbox */
+    background-color: #ff7300; /* Warna latar belakang */
+    color: #fff; /* Warna teks */
+    border: none; /* Hilangkan border */
+    border-radius: 5px; /* Melengkungkan sudut */
+    padding: 5px 5px; /* Atur padding */
+    font-size: 12px; /* Ukuran font */
+    transition: transform 0.2s, margin 0.2s; /* Animasi saat tombol diklik dan saat margin diubah */
+}
+
+/* Efek 3D saat tombol minus dan plus dihover */
+.quantity button:hover {
+    transform: translateY(1px); /* Menggeser tombol sedikit ke bawah saat dihover */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Efek bayangan saat dihover */
+}
+
+/* Efek saat tombol minus dan plus diklik */
+.quantity button:active {
+    transform: translateY(3px); /* Menggeser tombol lebih jauh ke bawah saat diklik */
+}
+
+.quantity span {
+    flex: 10; /* Menyesuaikan lebar span dengan flexbox */
+    text-align: center; /* Posisikan teks di tengah */
+}
+
+
+@media (min-width: 992px) {
+    .quantity button {
+        width: 5px; /* Atur lebar tombol secara tetap */
+    }
+
+    .quantity span {
+        width: 5px; /* Atur lebar span secara tetap */
+    }
+}
+/* navbar kategori */
+.nav-pills .nav-link {
+    color: #000;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .nav-link:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.nav-pills {
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.detail-menu {
+    margin-top: 20px; /* Tambahkan margin atas sebesar 20px */
+}
