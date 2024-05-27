@@ -1,17 +1,7 @@
-RewriteEngine On
-
-# Jika belum login (misalnya, tidak ada session login), redirect ke masuk.php
-
-RewriteCond %{REQUEST_URI} ^/index.php$ [NC,OR]
-RewriteCond %{REQUEST_URI} ^/$
-RewriteCond %{HTTP_COOKIE} !login=true
-RewriteRule ^(.*)$ masuk.php [L]
-
-# Jika request adalah file atau direktori yang ada, maka tidak mengubahnya
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Alihkan semua permintaan lain ke index.php
-
-RewriteRule ^(.\*)$ index.php [L,QSA]
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteRule ^$ masuk.php [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?$1 [L,QSA]
