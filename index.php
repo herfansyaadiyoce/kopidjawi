@@ -1,5 +1,10 @@
 <?php
 session_start();
+// Redirect to masuk.php if the session variables are not set
+if (!isset($_SESSION['nama_pelanggan']) || !isset($_SESSION['nomer_meja'])) {
+    header("Location: masuk.php");
+    exit();
+}
 $koneksi = new mysqli("localhost", "root", "", "warungkopidjawi");
 ?>
 
