@@ -6,12 +6,12 @@ WHERE pemesanan.id_pemesanan = '$_GET[id]'");
 $detail = $ambil->fetch_assoc();
 ?>
 
-<strong>Nama &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp; <?php echo $detail['nama_pelanggan']; ?></strong><br>
+<strong>Nama &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <?php echo $detail['nama_pelanggan']; ?></strong><br>
 <strong>
     Nomer Meja : &nbsp;<?php echo $detail['nomer_meja']; ?> <br><br>
 </strong>
-Tanggal/ Waktu : <?php echo $detail['tanggal_pemesanan']; ?><br>
-Total &nbsp;&nbsp;&nbsp;&nbsp; : Rp. <?php echo number_format($detail['total_pemesanan']); ?>
+Waktu &nbsp;&nbsp;&nbsp;: <?php echo $detail['tanggal_pemesanan']; ?><br>
+<strong>Total &nbsp;&nbsp;&nbsp;&nbsp; : Rp. <?php echo number_format($detail['total_pemesanan']); ?></strong>
 </p>
 
 <table class="table table-bordered text-center">

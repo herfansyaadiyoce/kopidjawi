@@ -2,22 +2,23 @@
 session_start();
 $koneksi = new mysqli("localhost", "root", "", "warungkopidjawi");
 
+// Insert new pelanggan and pemesanan data if session variables are set
 if (isset($_SESSION['nama_pelanggan']) && isset($_SESSION['nomer_meja'])) {
     $nama_pelanggan = $_SESSION['nama_pelanggan'];
     $nomer_meja = $_SESSION['nomer_meja'];
 
-    // Cek jika pelanggan sudah ada
+    // Check if pelanggan already exists
     $checkPelanggan = $koneksi->prepare("SELECT id_pelanggan FROM pelanggan WHERE nama_pelanggan = ? AND nomer_meja = ?");
     $checkPelanggan->bind_param("si", $nama_pelanggan, $nomer_meja);
     $checkPelanggan->execute();
     $result = $checkPelanggan->get_result();
 
     if ($result->num_rows > 0) {
-        // Jika pelanggan sudah ada, ambil id_pelanggan
+        // If pelanggan exists, get id_pelanggan
         $row = $result->fetch_assoc();
         $id_pelanggan = $row['id_pelanggan'];
     } else {
-        // Jika pelanggan belum ada, tambahkan ke database
+        // If pelanggan doesn't exist, add to database
         $stmt = $koneksi->prepare("INSERT INTO pelanggan (nama_pelanggan, nomer_meja) VALUES (?, ?)");
         $stmt->bind_param("si", $nama_pelanggan, $nomer_meja);
         $stmt->execute();
@@ -26,9 +27,9 @@ if (isset($_SESSION['nama_pelanggan']) && isset($_SESSION['nomer_meja'])) {
     }
     $checkPelanggan->close();
 
-    // Insert data pemesanan dengan status default 'belum'
+    // Insert new pemesanan with default status 'belum'
     $tanggal_pemesanan = date("Y-m-d H:i:s");
-    $total_pemesanan = 0; // Set total pemesanan awal ke 0
+    $total_pemesanan = 0; // Initialize total pemesanan to 0
     $status_pemesanan = 'belum';
 
     $stmt = $koneksi->prepare("INSERT INTO pemesanan (id_pelanggan, tanggal_pemesanan, total_pemesanan, status_pemesanan) VALUES (?, ?, ?, ?)");
@@ -36,14 +37,13 @@ if (isset($_SESSION['nama_pelanggan']) && isset($_SESSION['nomer_meja'])) {
     $stmt->execute();
     $stmt->close();
 
-    // Hapus data sesi
+    // Clear session data
     unset($_SESSION['nama_pelanggan']);
     unset($_SESSION['nomer_meja']);
 }
 
-// Ambil data dari database
+// Fetch data from database
 $ambil = $koneksi->query("SELECT pemesanan.id_pemesanan, pelanggan.nomer_meja, pelanggan.nama_pelanggan, pemesanan.tanggal_pemesanan, pemesanan.total_pemesanan, pemesanan.status_pemesanan FROM pemesanan JOIN pelanggan ON pemesanan.id_pelanggan = pelanggan.id_pelanggan ORDER BY pemesanan.tanggal_pemesanan DESC");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,14 +63,14 @@ $ambil = $koneksi->query("SELECT pemesanan.id_pemesanan, pelanggan.nomer_meja, p
         <table class="table table-bordered text-center">
             <thead>
                 <tr>
-                    <th> No. </th>
-                    <th> Nomer Meja</th>
-                    <th> Nama Pelanggan</th>
-                    <th> Tanggal Pemesanan</th>
-                    <th> Menu</th>
-                    <th> Total Pemesanan</th>
-                    <th> Status </th>
-                    <th> Aksi</th>
+                    <th>No.</th>
+                    <th>Nomer Meja</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Tanggal Pemesanan</th>
+                    <th>Menu</th>
+                    <th>Total Pemesanan</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -86,9 +86,11 @@ $ambil = $koneksi->query("SELECT pemesanan.id_pemesanan, pelanggan.nomer_meja, p
                             $id_pemesanan = $pecah['id_pemesanan'];
                             $query_menu = "SELECT menu.nama_menu, pemesanan_menu.jumlah FROM menu JOIN pemesanan_menu ON menu.id_menu = pemesanan_menu.id_menu WHERE pemesanan_menu.id_pemesanan = $id_pemesanan";
                             $result_menu = $koneksi->query($query_menu);
+                            $menus = [];
                             while ($row_menu = $result_menu->fetch_assoc()) {
-                                echo $row_menu['nama_menu'] . " (" . $row_menu['jumlah'] . "), ";
+                                $menus[] = $row_menu['nama_menu'] . " (" . $row_menu['jumlah'] . ")";
                             }
+                            echo implode(", ", $menus);
                             ?>
                         </td>
                         <td>Rp. <?php echo number_format($pecah['total_pemesanan']); ?></td>
@@ -100,7 +102,7 @@ $ambil = $koneksi->query("SELECT pemesanan.id_pemesanan, pelanggan.nomer_meja, p
                                 <option value="cancel" <?php echo $pecah['status_pemesanan'] == 'cancel' ? 'selected' : ''; ?>>Cancel</option>
                             </select>
                         </td>
-                        <td><a href="index.php?halaman=detail&id=<?php echo $pecah['id_pemesanan']; ?>" class="btn btn-success"> Detail </a></td>
+                        <td><a href="index.php?halaman=detail&id=<?php echo $pecah['id_pemesanan']; ?>" class="btn btn-success">Detail</a></td>
                     </tr>
                     <?php $nomor++; ?>
                 <?php } ?>
@@ -113,18 +115,7 @@ $ambil = $koneksi->query("SELECT pemesanan.id_pemesanan, pelanggan.nomer_meja, p
             var selectedValue = selectElement.value;
             var column = document.getElementById("status_column_" + id);
 
-            // Set warna latar belakang sesuai dengan opsi yang dipilih
-            if (selectedValue === "diproses") {
-                column.style.backgroundColor = "#FFA07A"; // Warna untuk Diproses
-            } else if (selectedValue === "selesai") {
-                column.style.backgroundColor = "#98FB98"; // Warna untuk Selesai
-            } else if (selectedValue === "cancel") {
-                column.style.backgroundColor = "#B0C4DE"; // Warna untuk Cancel
-            } else {
-                column.style.backgroundColor = "white"; // Default: Warna latar belakang kolom putih
-            }
-
-            // Update status di database melalui AJAX
+            // Update status in database via AJAX
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "update_status.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

@@ -37,18 +37,6 @@
 
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <!-- search form (Optional) -->
-                <form action="#" method="get" class="sidebar-form">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-                            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-                <!-- /.search form -->
-
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">Menu Navigation</li>
@@ -56,7 +44,8 @@
                     <li><a href="index.php"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
                     <li><a href="index.php?halaman=menu"><i class="fa fa-cutlery"></i> <span>Menu</span></a></li>
                     <!-- <li><a href="index.php?halaman=pelanggan"><i class="fa fa-user-o"></i> <span>Pelanggan</span></a></li> -->
-                    <li><a href="index.php?halaman=pemesanan"><i class="fa fa-money"></i> <span>Pemesanan</span></a></li>
+                    <li><a href="index.php?halaman=pemesanan"><i class="fa fa-address-book"></i> <span>Pemesanan</span></a></li>
+                    <li><a href="index.php?halaman=pembayaran"><i class="fa fa-money"></i> <span>Pembayaran</span></a></li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

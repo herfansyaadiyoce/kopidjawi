@@ -1,3 +1,29 @@
+<?php
+session_start();
+$koneksi = new mysqli("localhost", "root", "", "warungkopidjawi");
+
+if (isset($_POST['upload'])) {
+    $file_name = $_FILES['file']['name'];
+    $file_tmp = $_FILES['file']['tmp_name'];
+    $target_dir = "../bukti_pembayaran/";
+
+    // Check if file already exists
+    if (file_exists($target_dir . $file_name)) {
+        echo "Sorry, file already exists.";
+    } else {
+        move_uploaded_file($file_tmp, $target_dir . $file_name);
+        $id_pemesanan = $_SESSION['id_pemesanan']; // Sesuaikan dengan sesi yang digunakan untuk menyimpan id pemesanan
+        $query = "UPDATE pembayaran SET bukti_pembayaran='$file_name' WHERE id_pemesanan='$id_pemesanan'";
+        $result = $koneksi->query($query);
+        if ($result) {
+            echo "File uploaded successfully.";
+        } else {
+            echo "Error updating record: " . $koneksi->error;
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,30 +65,31 @@
 
     <section class="konten">
         <div class="container"><br><br>
-            <h1 class="judul-keranjang text-center">QRIS Payment</h1><br>
-            <div class="text-center">
-                <img src="img/qrisasal.jpg" alt="QRIS" class="img-fluid" style="max-width: 300px;">
-            </div>
-            <br>
-
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <form id="uploadForm" action="proses_upload.php" method="post" enctype="multipart/form-data">
+            <!-- Form untuk mengunggah gambar -->
+            <form action="" method="POST" enctype="multipart/form-data">
+                <h1 class="judul-keranjang text-center">QRIS Payment</h1><br>
+                <div class="text-center">
+                    <img src="img/qrisasal.jpg" alt="QRIS" class="img-fluid" style="max-width: 300px;">
+                </div>
+                <br>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
                         <p class="form-text text-danger">Upload bukti pembayaran dengan QRIS di sini</p>
                         <div class="input-group mb-3">
-                            <input type="file" class="form-control form-control-sm" id="bukti" name="bukti" required>
-                            <label class="input-group-text" for="bukti">Browse</label>
+                            <!-- Input file untuk memilih gambar -->
+                            <input type="file" class="form-control" name="foto" required>
+                            <button class="btn btn-primary" type="submit" name="save">Upload</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
+            <!-- End of form -->
             <div class="text-center">
                 <br><a href="bayar.php" class="btn btn-success">Kembali</a>
-                <a href="masuk.php" id="selesaiBtn" class="btn btn-danger btn-fluid disabled" onclick="return checkFile()">Selesai</a>
+                <button id="selesaiBtn" class="btn btn-danger btn-fluid disabled" onclick="selesai()">Selesai</button>
             </div>
         </div>
     </section>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -71,12 +98,8 @@
             var selesaiBtn = document.getElementById('selesaiBtn');
             if (this.files.length > 0) {
                 selesaiBtn.classList.remove('disabled');
-                selesaiBtn.onclick = null; // Remove the onclick handler
             } else {
                 selesaiBtn.classList.add('disabled');
-                selesaiBtn.onclick = function() {
-                    return false;
-                }; // Prevent default action
             }
         });
 
@@ -88,6 +111,25 @@
             }
             return true;
         }
+
+        function selesai() {
+            if (checkFile()) {
+                $.post("bayar_proses.php", {
+                    method: "selesai"
+                }, function(data) {
+                    if (data === "success") {
+                        window.location.href = "masuk.php";
+                    } else {
+                        alert("Terjadi kesalahan. Silakan coba lagi.");
+                    }
+                });
+            }
+        }
+
+        // Enable button click if file uploaded
+        $(document).on("click", "#selesaiBtn:not(.disabled)", function() {
+            selesai();
+        });
     </script>
 </body>
 

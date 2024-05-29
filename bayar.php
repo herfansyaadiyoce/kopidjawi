@@ -90,12 +90,20 @@ $total_harga = 0;
                             </tr>
                         </tfoot>
                     </table>
+                    <br>
+                    <form id="paymentForm" method="POST" name="metode_pembayaran">
+                        <p>Pilih metode pembayaran :</p>
+                        <select name="metode_pembayaran" class="form-select btn btn-light btn-fluid" style="color:black ; border: 1px solid #ced4da">
+                            <option value="kasir">Bayar di Kasir</option>
+                            <option value="qris">QRIS</option>
+                        </select>
+                    </form>
                 </div>
                 <div class="btn-container">
                     <a href="keranjang.php" class="btn btn-primary btn-fluid">Kembali</a>
-                    <button onclick="window.print()" class="btn btn-danger btn-fluid">Bayar di Kasir</button>
+                    <button onclick="window.print()" class="btn btn-danger btn-fluid">Cetak</button>
                     <a href="qris.php" class="btn btn-success btn-fluid">QRIS</a>
-                    <a href="masuk.php" class="btn btn-warning btn-fluid" style="color: black;" onclick="selesai()">Selesai</a>
+                    <button class="btn btn-warning btn-fluid" style="color: black;" onclick="selesai()">Selesai</button>
                 </div>
             </div>
         </div>
@@ -120,6 +128,11 @@ $total_harga = 0;
                     afterPrintHandler();
                 }
             });
+        }
+
+        function selectPaymentMethod(select) {
+            var form = select.parentElement;
+            form.submit();
         }
 
         function selesai() {

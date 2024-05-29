@@ -19,6 +19,8 @@
         include 'hapus_menu.php';
       } elseif ($_GET['halaman'] == "edit_menu") {
         include 'edit_menu.php';
+      } elseif ($_GET['halaman'] == "pembayaran") {
+        include 'pembayaran.php';
       }
     } else {
       include 'home.php';
