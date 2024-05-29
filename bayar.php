@@ -95,7 +95,7 @@ $total_harga = 0;
                     <a href="keranjang.php" class="btn btn-primary btn-fluid">Kembali</a>
                     <button onclick="window.print()" class="btn btn-danger btn-fluid">Bayar di Kasir</button>
                     <a href="qris.php" class="btn btn-success btn-fluid">QRIS</a>
-                    <a href="masuk.php" class="btn btn-warning btn-fluid" style="color: black;">Selesai</a>
+                    <a href="masuk.php" class="btn btn-warning btn-fluid" style="color: black;" onclick="selesai()">Selesai</a>
                 </div>
             </div>
         </div>
@@ -118,6 +118,18 @@ $total_harga = 0;
                     beforePrintHandler();
                 } else {
                     afterPrintHandler();
+                }
+            });
+        }
+
+        function selesai() {
+            $.post("bayar_proses.php", {
+                method: "selesai"
+            }, function(data) {
+                if (data === "success") {
+                    window.location.href = "masuk.php";
+                } else {
+                    alert("Terjadi kesalahan. Silakan coba lagi.");
                 }
             });
         }

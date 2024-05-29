@@ -86,20 +86,12 @@ if (empty($_SESSION['keranjang']) or !isset($_SESSION['keranjang'])) {
             <a href="bayar.php" class="btn btn-success" onclick="return confirm('Apakah Anda yakin ingin melakukan pembayaran?')"> Bayar </a>
         </div>
     </section>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.btn-plus').on('click', function() {
-                let id = $(this).data('id');
-                updateQuantity(id, 'plus');
-            });
-
-            $('.btn-minus').on('click', function() {
-                let id = $(this).data('id');
-                updateQuantity(id, 'minus');
-            });
-
+            // Fungsi untuk memperbarui jumlah
             function updateQuantity(id, action) {
                 $.ajax({
                     url: 'beli.php',
@@ -118,35 +110,39 @@ if (empty($_SESSION['keranjang']) or !isset($_SESSION['keranjang'])) {
                         let hargaMenu = parseInt($('.harga-menu[data-id="' + id + '"]').data('harga'));
                         let newSubtotal = hargaMenu * data.jumlah;
                         subhargaElement.text('Rp. ' + newSubtotal.toLocaleString('id-ID'));
+
+                        // Perbarui total harga setelah perubahan
+                        calculateTotalHarga();
                     }
                 });
             }
-        });
-        $(document).ready(function() {
-            // Your existing JavaScript code
 
-            // Function to calculate total harga
+            // Fungsi untuk menghitung total harga
             function calculateTotalHarga() {
                 let total = 0;
                 $('.subharga').each(function() {
-                    let subharga = parseInt($(this).text().replace('Rp. ', '').replace('.', ''));
+                    let subharga = parseInt($(this).text().replace(/[^0-9]/g, ''));
                     total += subharga;
                 });
-                $('#total-harga').text('Rp. ' + formatRupiah(total));
+                $('#total-harga').text('Rp. ' + total.toLocaleString('id-ID'));
             }
 
-            // Format Rupiah
-            function formatRupiah(angka) {
-                var reverse = angka.toString().split('').reverse().join(''),
-                    ribuan = reverse.match(/\d{1,3}/g);
-                ribuan = ribuan.join('.').split('').reverse().join('');
-                return ribuan;
-            }
+            // Event listener untuk tombol plus
+            $('.btn-plus').on('click', function() {
+                let id = $(this).data('id');
+                updateQuantity(id, 'plus');
+            });
 
-            // Calculate total harga on page load
+            // Event listener untuk tombol minus
+            $('.btn-minus').on('click', function() {
+                let id = $(this).data('id');
+                updateQuantity(id, 'minus');
+            });
+
+            // Hitung total harga pada saat halaman dimuat
             calculateTotalHarga();
 
-            // Update total harga on subharga change (added)
+            // Hitung total harga setelah setiap operasi AJAX selesai
             $(document).ajaxComplete(function() {
                 calculateTotalHarga();
             });
